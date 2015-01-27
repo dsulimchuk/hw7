@@ -1,0 +1,70 @@
+<form name="searchForm" novalidate>
+<div>
+  <div class="col-xs-12 col-md-4">
+    <div class="row form-group">
+      <div class="col-xs-12 col-sm-6 col-md-12">
+        <label class="control-label">Product</label>
+        <input type="text" class="form-control" placeholder="Product title" ng-model="ctrl.searchForm.product" ng-minlength="3" name="searchFormProduct">
+        <div ng-show="searchForm.searchFormProduct.$touched" class="bg-danger">
+          <div ng-show="searchForm.searchFormProduct.$error.minlength">Product title should be at least 3 characters long.</div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-12">
+        <label class="control-label">&nbsp;</label>
+        <select class="form-control" ng-model="ctrl.searchForm.category">
+          <option>Category</option>
+          <option>Category 1</option>
+          <option>Category 2</option>
+          <option>Category 3</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-8">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <auction-price-range low-price="ctrl.searchForm.lowPrice"
+                             high-price="ctrl.searchForm.highPrice">
+        </auction-price-range>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="row">
+          <div class="col-xs-12">
+            <label class="control-label">Max Auction Close Day</label>
+
+            <div class="input-group">
+              <input auction-datepicker data-date-format="mm/dd/yyyy" class="form-control" ng-model="ctrl.searchForm.maxCloseDate" name="maxCloseDate">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            </div>
+            <div ng-show="searchForm.maxCloseDate.$touched" class="bg-danger">
+              <!--<div ng-show="searchForm.maxCloseDate.$error.min">The Number of Bids should be a positive value</div>-->
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <label class="control-label">&nbsp;</label><br>
+
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <div class="col-xs-8">
+                  <label class="control-label">Number of Bids</label>
+                </div>
+                <div class="col-xs-4">
+                  <input type="number" class="form-control" min="0" ng-model="ctrl.searchForm.numOfBids" name="numOfBids">
+                </div>
+                <div ng-show="searchForm.numOfBids.$touched" class="bg-danger">
+                  <div ng-show="searchForm.numOfBids.$error.min">The Number of Bids should be a positive value</div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-4 col-md-offset-4">
+    <br>
+    <button class="btn btn-default btn-block btn-primary" ng-click="ctrl.searchForm.submitBtn()">Find more</button>
+  </div>
+</div>
+</form>
