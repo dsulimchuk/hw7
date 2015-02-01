@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +42,7 @@ public class DataEngine {
                 "",
                 "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore adipiscing elit. Ut enim.",
                 2,
-                LocalDateTime.now().plusDays(random.nextInt(10) + 1),
+                ZonedDateTime.now().plusDays(random.nextInt(10) + 1),
                 new BigDecimal(12),
                 new BigDecimal(35),
                 "123"

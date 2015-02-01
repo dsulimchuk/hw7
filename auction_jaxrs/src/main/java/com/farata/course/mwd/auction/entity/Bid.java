@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -21,11 +22,11 @@ public class Bid {
     private BigDecimal amount;
     private int desiredQuantity; // How many items the user wants
     private User user;
-    private LocalDateTime bidTime;
+    private ZonedDateTime bidTime;
     private boolean isWinning;
 
     public Bid(int id, Product product, BigDecimal amount, int desiredQuantity,
-        User user, LocalDateTime bidTime, boolean isWinning) {
+        User user, ZonedDateTime bidTime, boolean isWinning) {
         this.id = id;
         this.product = product;
         this.amount = amount;
@@ -63,7 +64,7 @@ public class Bid {
                 .add("desiredQuantity", this.desiredQuantity)
                 .add("user", this.user.getJsonObject())
                 .add("isWinning", this.isWinning)
-                .add("bidTime", this.bidTime.toString())
+                .add("bidTime", this.bidTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
                 .build();
     }
 
@@ -107,11 +108,11 @@ public class Bid {
         this.user = user;
     }
 
-    public LocalDateTime getBidTime() {
+    public ZonedDateTime getBidTime() {
         return bidTime;
     }
 
-    public void setBidTime(LocalDateTime bidTime) {
+    public void setBidTime(ZonedDateTime bidTime) {
         this.bidTime = bidTime;
     }
 

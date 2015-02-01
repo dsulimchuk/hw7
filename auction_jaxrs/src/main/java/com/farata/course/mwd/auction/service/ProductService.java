@@ -109,6 +109,7 @@ public class ProductService {
                 .getTitle());
             JsonObjectBuilder productJsonBuilder = product.getJsonObjectBuilder();
 
+
             JsonArrayBuilder bidsJsonArrayBuilder = Json.createArrayBuilder();
             List<Bid> bidsForProduct = auction.getBidsForProduct(product);
             bidsForProduct.stream().forEach(b -> {
@@ -117,6 +118,8 @@ public class ProductService {
             JsonArray bidsArray = bidsJsonArrayBuilder.build();
             productJsonBuilder.add("bids", bidsArray);
             productJsonBuilder.add("bidsQty", bidsArray.size());
+            productJsonBuilder.add("quantityLeft", auction.getQuantityLeft(product));
+            productJsonBuilder.add("auctionIsClosed", auction.auctionIsClosed(product));
 
             return Response.ok(productJsonBuilder.build()).build();
         } else {

@@ -13,7 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
@@ -80,7 +80,7 @@ public class BidService {
         BigDecimal amount = new BigDecimal(bidJson.getString("amount"));
         int desiredQuantity = bidJson.getInt("desiredQuantity");
 
-        Bid bid = new Bid(bidCounter.incrementAndGet(), product, amount, desiredQuantity, user, LocalDateTime.now(), false);
+        Bid bid = new Bid(bidCounter.incrementAndGet(), product, amount, desiredQuantity, user, ZonedDateTime.now(), false);
         //direct invoke engine
         auction.placeBid(bid);
 

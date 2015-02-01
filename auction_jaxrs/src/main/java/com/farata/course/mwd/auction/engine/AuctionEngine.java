@@ -15,4 +15,6 @@ public interface AuctionEngine {
     boolean auctionIsClosed(Product product);
 
     List<Bid> getBidsForProduct(Product product);
+
+    public int getQuantityLeft(Product product);
 }

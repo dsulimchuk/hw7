@@ -48,8 +48,20 @@
     </div>
     <div class="col-sm-12 col-md-9">
       <h4><b>Current Price</b>: {{ ctrl.product.minimalPrice | currency }} [{{ctrl.product.bidsQty}}&nbsp;bids]</h4>
+      <h4><b>Reserved Price</b>: {{ ctrl.product.reservedPrice | currency }}</h4>
+      <a class="dropdown-toggle" data-toggle="dropdown">
+          Show bids
+      </a>
+      <ul id="menu1" class="dropdown-menu">
+        <li ng-repeat="bid in ctrl.product.bids">
+          <p>{{bid.bidTime}}, {{bid.user}}, is winning {{bid.isWinning}}</p>
+        </li>
+      </ul>
       <p>
-        <b>Time left</b>: {{ ctrl.product.timeleft }}h
+        <b>Quantity left</b>: {{ ctrl.product.quantityLeft }}
+      </p>
+      <p>
+        <b>Time left</b>: {{ ctrl.timeleft }}
       </p>
     </div>
     <div class="col-sm-12 col-md-3">

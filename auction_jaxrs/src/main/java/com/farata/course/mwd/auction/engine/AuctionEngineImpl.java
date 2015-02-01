@@ -102,6 +102,15 @@ public class AuctionEngineImpl implements AuctionEngine {
     }
 
     @Override
+    public int getQuantityLeft(Product product) {
+        if (product == null) {
+            return 0;
+        }
+        List<Bid> bids = getBidsForProduct(product);
+        return product.getQuantity() - getWinnedQty(bids);
+    }
+
+    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("AuctionEngine winning bids = {\n");

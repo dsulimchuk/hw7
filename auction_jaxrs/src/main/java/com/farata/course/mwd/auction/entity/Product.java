@@ -5,8 +5,8 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.xml.bind.annotation.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -19,16 +19,17 @@ public class Product {
     private String url;
     private String description;
     private int quantity;   // How many items the seller has
-    private LocalDateTime auctionEndTime;
+    private ZonedDateTime auctionEndTime;
+
+
     private BigDecimal minimalPrice;     // Don't sell unless the bid is more than min price
     private BigDecimal reservedPrice;   // If a bidder offers reserved price, the auction is closed
-    private String timeleft;
     private int watchers;
 
 
     public Product(Integer id, String title, String thumbnail, String url, String description,
         int quantity,
-        LocalDateTime auctionEndTime, BigDecimal minimalPrice, BigDecimal reservedPrice,
+        ZonedDateTime auctionEndTime, BigDecimal minimalPrice, BigDecimal reservedPrice,
         String timeleft, int watchers) {
         this.id = id;
         this.title = title;
@@ -39,7 +40,6 @@ public class Product {
         this.auctionEndTime = auctionEndTime;
         this.minimalPrice = minimalPrice;
         this.reservedPrice = reservedPrice;
-        this.timeleft = timeleft;
         this.watchers = watchers;
     }
 
@@ -54,7 +54,6 @@ public class Product {
         sb.append(", auctionEndTime=").append(auctionEndTime);
         sb.append(", minimalPrice=").append(minimalPrice);
         sb.append(", reservedPrice=").append(reservedPrice);
-        sb.append(", timeleft='").append(timeleft).append('\'');
         sb.append(", watchers=").append(watchers);
         sb.append('}');
         return sb.toString();
@@ -92,14 +91,6 @@ public class Product {
         this.description = description;
     }
 
-    public String getTimeleft() {
-        return timeleft;
-    }
-
-    public void setTimeleft(String timeleft) {
-        this.timeleft = timeleft;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -108,11 +99,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getAuctionEndTime() {
+    public ZonedDateTime getAuctionEndTime() {
         return auctionEndTime;
     }
 
-    public void setAuctionEndTime(LocalDateTime auctionEndTime) {
+    public void setAuctionEndTime(ZonedDateTime auctionEndTime) {
         this.auctionEndTime = auctionEndTime;
     }
 
@@ -150,22 +141,18 @@ public class Product {
 
     @XmlTransient
     public JsonObjectBuilder getJsonObjectBuilder() {
-        LocalDateTime now = LocalDateTime.now();
-
+        String strAuctEndTime = auctionEndTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         return Json.createObjectBuilder()
-            .add("id", id)
+                .add("id", id)
             .add("title", title)
             .add("thumb", thumbnail)
             .add("url", url)
             .add("description", description)
             .add("quantity", quantity)
-            .add("auctionEndTime", String.valueOf(auctionEndTime))
+            .add("auctionEndTime", strAuctEndTime)
             .add("minimalPrice", minimalPrice)
             .add("reservedPrice", reservedPrice)
-            //.add("timeleft", timeleft)
-            .add("timeleft", (now.compareTo(auctionEndTime) < 0) ?
-                    String.valueOf((auctionEndTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC) / 1000)) : "Auction clozed")
             .add("watchers", watchers);
     }
     public JsonObject getJsonObject() {
