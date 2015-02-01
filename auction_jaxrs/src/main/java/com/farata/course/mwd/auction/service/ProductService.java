@@ -2,11 +2,12 @@ package com.farata.course.mwd.auction.service;
 
 import com.farata.course.mwd.auction.data.DataEngine;
 import com.farata.course.mwd.auction.engine.AuctionEngine;
-import com.farata.course.mwd.auction.entity.Bid;
 import com.farata.course.mwd.auction.entity.Product;
 
 import javax.inject.Inject;
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -107,21 +108,9 @@ public class ProductService {
         if (product != null) {
             System.out.println("findProduct method has returned " + product
                 .getTitle());
-            JsonObjectBuilder productJsonBuilder = product.getJsonObjectBuilder();
 
 
-            JsonArrayBuilder bidsJsonArrayBuilder = Json.createArrayBuilder();
-            List<Bid> bidsForProduct = auction.getBidsForProduct(product);
-            bidsForProduct.stream().forEach(b -> {
-                bidsJsonArrayBuilder.add(b.getJsonObject());
-            });
-            JsonArray bidsArray = bidsJsonArrayBuilder.build();
-            productJsonBuilder.add("bids", bidsArray);
-            productJsonBuilder.add("bidsQty", bidsArray.size());
-            productJsonBuilder.add("quantityLeft", auction.getQuantityLeft(product));
-            productJsonBuilder.add("auctionIsClosed", auction.auctionIsClosed(product));
-
-            return Response.ok(productJsonBuilder.build()).build();
+            return Response.ok(auction.getJsonReportForProduct(product).build()).build();
         } else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

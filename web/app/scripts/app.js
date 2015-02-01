@@ -9,6 +9,7 @@
   }
 
   angular.module('auction', ['ngRoute', 'restangular'])
+    .constant('webSocketEndPoint','ws://localhost:8080/auction_jaxrs-1.0/api/ws')
     .config(['$routeProvider', function ($routeProvider) {
       var title = function (page) {
         return page + ' | Auction';

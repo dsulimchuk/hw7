@@ -8,6 +8,10 @@ import com.farata.course.mwd.auction.entity.Product;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -141,4 +145,24 @@ public class AuctionEngineImpl implements AuctionEngine {
 
         return bids;
     }
+
+    public JsonObjectBuilder getJsonReportForProduct(Product product) {
+        JsonObjectBuilder productJsonBuilder = product.getJsonObjectBuilder();
+
+
+        JsonArrayBuilder bidsJsonArrayBuilder = Json.createArrayBuilder();
+        List<Bid> bidsForProduct = getBidsForProduct(product);
+        bidsForProduct.stream().forEach(b -> {
+            bidsJsonArrayBuilder.add(b.getJsonObject());
+        });
+        JsonArray bidsArray = bidsJsonArrayBuilder.build();
+        productJsonBuilder.add("bids", bidsArray);
+        productJsonBuilder.add("bidsQty", bidsArray.size());
+        productJsonBuilder.add("quantityLeft", getQuantityLeft(product));
+        productJsonBuilder.add("auctionIsClosed", auctionIsClosed(product));
+
+        return productJsonBuilder;
+
+    }
+
 }

@@ -5,6 +5,7 @@ import com.farata.course.mwd.auction.engine.AuctionEngine;
 import com.farata.course.mwd.auction.entity.Bid;
 import com.farata.course.mwd.auction.entity.Product;
 import com.farata.course.mwd.auction.entity.User;
+import com.farata.course.mwd.auction.websocket.BidEndpoint;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
@@ -25,6 +26,11 @@ public class BidService {
     private AuctionEngine auction;
     private UserService userService;
     private AtomicInteger bidCounter;
+    private BidEndpoint bidEndpoint;
+    @Inject
+    public void setBidEndpoint(BidEndpoint bidEndpoint) {
+        this.bidEndpoint = bidEndpoint;
+    }
 
     @Inject
     public void setUserService(UserService userService) {
@@ -85,7 +91,7 @@ public class BidService {
         auction.placeBid(bid);
 
         //sendBidToQueue(); // Send a message to the queue
-
+        bidEndpoint.sendTimeToAll(bid.getProduct(), auction);
         return Response.ok().build();
 
     }
