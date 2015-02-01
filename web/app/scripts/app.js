@@ -1,5 +1,12 @@
 (function () {
   'use strict';
+  /**
+   * Returns a random integer between min (inclusive) and max (inclusive)
+   * Using Math.round() will give you a non-uniform distribution!
+   */
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
   angular.module('auction', ['ngRoute', 'restangular'])
     .config(['$routeProvider', function ($routeProvider) {
@@ -39,9 +46,10 @@
     }])
     .config(['RestangularProvider', function (RestangularProvider) {
       //RestangularProvider.setBaseUrl('data');
-        RestangularProvider.setBaseUrl('http://private-anon-44b976eb9-webauctionv1.apiary-mock.com');
+      //RestangularProvider.setBaseUrl('http://private-anon-44b976eb9-webauctionv1.apiary-mock.com');
+        RestangularProvider.setBaseUrl('http://localhost:8080/auction_jaxrs-1.0/api');
       //RestangularProvider.setRequestSuffix('.json');
-
+        //RestangularProvider.setDefaultHeaders({hahaha: "x-restangular"});
         RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
           var extractedData;
           if (operation === 'getList') {
@@ -52,11 +60,12 @@
           }
           return extractedData;
         });
+
     }])
     .run(['$rootScope', 'SearchFormService', function ($rootScope, SearchFormService) {
-      $rootScope.$on('$routeChangeSuccess', function (event, currentRoute) {
+        $rootScope.$on('$routeChangeSuccess', function (event, currentRoute) {
         $rootScope.pageTitle = currentRoute.title;
-
+        $rootScope.USER_ID = getRandomInt(1,3);
         //register listener on params to SearchForm
         SearchFormService.applyLocationParams(currentRoute.params);
       });

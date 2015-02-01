@@ -41,12 +41,13 @@
         },
 
         submitBtn : function(){
+            console.log('submit');
             var locationObj = this.getParamsByModel();
             if (location.path() !== '/search') {
                 location.search(locationObj).path('/search');
             } else {
                 location.search(locationObj);
-                productService.find(locationObj);
+                productService.findAndPopulate(locationObj);
             }
         },
 

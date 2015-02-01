@@ -2,14 +2,15 @@
   'use strict';
 
   var SearchController = function (productService, searchFormService) {
-    var _this = this;
-    _this.products = [];
     this.searchForm = searchFormService;
+    this.prodSrv = productService;
 
     //get params from searchService
     var locationObj = searchFormService.getParamsByModel();
-    productService.find(locationObj)
-        .then(function (data) { _this.products = data; });
+    productService.findAndPopulate(locationObj);
+
+
+
   };
 
   SearchController.$inject = ['ProductService', 'SearchFormService'];
