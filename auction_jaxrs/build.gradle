@@ -27,3 +27,27 @@ tasks.withType(Test) {
     systemProperty 'JBOSS_HOME', '/Users/ds/_Java/wildfly-8.2.0.Final'
     systemProperty 'java.util.logging.manager', 'org.jboss.logmanager.LogManager'
 }
+
+
+
+
+task copyWeb(type: Copy) {
+    // Copy everything under src/main/webapp
+    from '../web/dist'
+    // Determine the destination directory later
+    into { 'src/main/webapp' }
+}
+
+
+task deleteWeb() {
+    FileTree treeToDelete = fileTree(dir: 'src/main/webapp')
+    treeToDelete.include '**/*.*'
+    treeToDelete.exclude 'WEB-INF'
+
+    treeToDelete.each {File file ->
+        file.delete();
+
+    }
+}
+copyWeb.dependsOn deleteWeb
+war.dependsOn copyWeb
