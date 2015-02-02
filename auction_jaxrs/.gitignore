@@ -1,6 +1,6 @@
 build
 .git
-.gradle
+.gradle/
 gradle/*
 src/main/webapp
 
