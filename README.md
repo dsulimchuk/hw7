@@ -11,4 +11,4 @@ Modern Web Application Development for Java Programmers Homework 7
 
 ###### to run demo:
 1. In web folder run "npm install && bower install && grunt build".
-2. In auction_jaxrs folder run "./gradlew build" and then manually deploy it under WildFly
+2. In auction_jaxrs folder run "./gradlew build" and then manually deploy "auction_jaxrs-1.0.war" under WildFly
