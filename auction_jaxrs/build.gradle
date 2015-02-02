@@ -34,20 +34,15 @@ tasks.withType(Test) {
 task copyWeb(type: Copy) {
     // Copy everything under src/main/webapp
     from '../web/dist'
+    from 'temp/WEB-INF'
     // Determine the destination directory later
     into { 'src/main/webapp' }
 }
 
-
-task deleteWeb() {
-    FileTree treeToDelete = fileTree(dir: 'src/main/webapp')
-    treeToDelete.include '**/*.*'
-    treeToDelete.exclude 'WEB-INF'
-
-    treeToDelete.each {File file ->
-        file.delete();
-
-    }
+task deleteWeb(type: Delete) {
+    delete 'src/main/webapp'
 }
+
+
 copyWeb.dependsOn deleteWeb
 war.dependsOn copyWeb
